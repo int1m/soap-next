@@ -1,9 +1,9 @@
 import {
-  SoapBodyAttributes, SoapBodyParams, SoapOptions, SoapParams,
+  SoapBodyAttributes, SoapBodyParams, SoapOptions, SoapParams, SoapHeaders, HttpHeaders,
 } from './SoapTypes';
 import SoapRequest from './SoapRequest';
 
-export default class SoapNext {
+class SoapNext {
   private readonly params: SoapParams;
 
   private readonly options: SoapOptions;
@@ -37,3 +37,7 @@ export default class SoapNext {
     return date;
   }
 }
+
+export {
+  SoapNext, SoapParams, SoapOptions, SoapBodyAttributes, SoapBodyParams, SoapHeaders, HttpHeaders,
+};

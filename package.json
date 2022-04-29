@@ -2,10 +2,10 @@
   "name": "soap-next",
   "version": "1.0.4",
   "description": "Simple soap client",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "lib/**/*"
+    "/dist"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

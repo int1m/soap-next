@@ -1,4 +1,4 @@
-import SoapNext from '../../src';
+import { SoapNext } from '../../src';
 
 describe('soap-next', () => {
   let soapClient: SoapNext;
