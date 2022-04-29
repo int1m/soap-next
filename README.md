@@ -2,9 +2,9 @@
     <h1>soap-next</h1>
     <p>soap-next is a simple SOAP client for Node.js</p>
 
-[![npm version](https://badgen.net/npm/v/soap-next)](https://www.npmjs.com/package/@faker-js/faker)
-[![npm downloads](https://badgen.net/npm/dm/soap-next)](https://www.npmjs.com/package/@faker-js/faker)
-[![npm downloads](https://badgen.net/npm/license/soap-next)](https://www.npmjs.com/package/@faker-js/faker)
+[![npm version](https://badgen.net/npm/v/soap-next)](https://www.npmjs.com/package/soap-next)
+[![npm downloads](https://badgen.net/npm/dm/soap-next)](https://www.npmjs.com/package/soap-next)
+[![npm downloads](https://badgen.net/npm/license/soap-next)](https://www.npmjs.com/package/soap-next)
 </div>
 
 ## Installing
