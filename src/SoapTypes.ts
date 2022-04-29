@@ -4,7 +4,7 @@ export interface SoapHeaders {
 }
 
 export type HttpHeaders = Record<string, string> & {
-  "set-cookie"?: string[]
+  'set-cookie'?: string[]
 };
 
 export interface SoapBodyAttributes {
