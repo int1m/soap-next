@@ -61,7 +61,7 @@ export default class SoapRequest {
 
     return {
       soapEnv: 'http://schemas.xmlsoap.org/soap/envelope/',
-      xml_schema: xsd.full || 'http://www.w3.org/2001/XMLSchema',
+      xml_schema: xsd?.full || 'http://www.w3.org/2001/XMLSchema',
       namespaces: namespaceFiltering,
     };
   }
