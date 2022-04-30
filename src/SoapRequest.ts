@@ -1,5 +1,7 @@
-import axios, { AxiosRequestHeaders } from 'axios';
+import axios, { AxiosRequestHeaders, AxiosRequestConfig } from 'axios';
 import { WsdlNext } from 'wsdl-next';
+import { Agent } from 'http';
+import { Agent as AgentHttps } from 'https';
 import {
   SoapBodyAttributes, SoapBodyParams, SoapParams,
 } from './SoapTypes';
@@ -10,6 +12,8 @@ export default class SoapRequest {
   private readonly clientParams: SoapParams;
 
   private wsdl: WsdlNext;
+
+  private readonly requestAgent: Agent | AgentHttps;
 
   constructor(url: string, params: SoapParams, wsdl: WsdlNext) {
     this.url = url;
@@ -22,6 +26,7 @@ export default class SoapRequest {
       };
     }
     this.wsdl = wsdl;
+    this.requestAgent = wsdl.requestAgent;
   }
 
   async getRequestHeadParams() {
@@ -164,21 +169,30 @@ export default class SoapRequest {
   }
 
   async request(body: string) {
-    const url = this.url.split('?')[0];
-    const result = await axios({
-      url,
+    const urlWithoutParams = this.url.split('?')[0];
+
+    const axiosConfig: AxiosRequestConfig = {
+      url: urlWithoutParams,
       method: 'POST',
       headers: this.clientParams.httpHeaders as AxiosRequestHeaders,
+      responseType: 'text',
       data: body,
-    });
+    };
 
-    return result;
+    if (this.requestAgent instanceof Agent) {
+      axiosConfig.httpAgent = this.requestAgent;
+    } else {
+      axiosConfig.httpsAgent = this.requestAgent;
+    }
+
+    const result = await axios(axiosConfig);
+
+    return result.data as string;
   }
 
   async call(method: string, bodyParams: SoapBodyParams, attributes: SoapBodyAttributes) {
     const requestXml = await this.getRequestXml(method, bodyParams, attributes);
     const result = await this.request(requestXml);
-
-    return result.data;
+    return result;
   }
 }

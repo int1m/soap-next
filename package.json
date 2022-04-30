@@ -1,6 +1,6 @@
 {
   "name": "soap-next",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Simple soap client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "wsdl-next": "^1.0.5"
+    "wsdl-next": "^1.0.7"
   },
   "keywords": [
     "SOAP",
