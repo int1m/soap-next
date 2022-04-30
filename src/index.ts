@@ -10,9 +10,14 @@ class SoapNext {
 
   private readonly wsdl: WsdlNext;
 
-  constructor(url: string, params: SoapParams = {}) {
-    this.wsdl = new WsdlNext(url);
-    this.soapRequest = new SoapRequest(url, params, this.wsdl);
+  private constructor(url: string, wsdl: WsdlNext, params: SoapParams = {}) {
+    this.wsdl = wsdl;
+    this.soapRequest = new SoapRequest(url, params, wsdl);
+  }
+
+  static async create(url: string, params: SoapParams = {}) {
+    const wsdl = await WsdlNext.create(url);
+    return new SoapNext(url, wsdl, params);
   }
 
   async getAllMethods() {

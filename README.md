@@ -25,10 +25,10 @@ yarn add soap-next
 
 ### Create SOAP client
 
-SoapNext(url: string, params: SoapParams)
+await SoapNext.create(url: string, params: SoapParams)
 
 ```ts
-soapClient = new SoapNext('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
+soapClient = await SoapNext.create('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
 ```
 
 **SoapParams**

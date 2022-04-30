@@ -3,8 +3,8 @@ import { SoapNext } from '../../src';
 describe('soap-next', () => {
   let soapClient: SoapNext;
 
-  beforeEach(() => {
-    soapClient = new SoapNext('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
+  beforeEach(async () => {
+    soapClient = await SoapNext.create('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
   });
 
   test('getAllMethods', async () => {
