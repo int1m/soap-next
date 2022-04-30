@@ -1,43 +1,42 @@
+import { WsdlNext } from 'wsdl-next';
+
 import {
-  SoapBodyAttributes, SoapBodyParams, SoapOptions, SoapParams, SoapHeaders, HttpHeaders,
+  SoapBodyAttributes, SoapBodyParams, SoapParams, SoapHeaders, HttpHeaders,
 } from './SoapTypes';
 import SoapRequest from './SoapRequest';
 
 class SoapNext {
-  private readonly params: SoapParams;
+  private readonly soapRequest: SoapRequest;
 
-  private readonly options: SoapOptions;
+  private readonly wsdl: WsdlNext;
 
-  private soapRequest: SoapRequest;
-
-  private wsdl = require('wsdlrdr');
-
-  constructor(params: SoapParams, options: SoapOptions = { secure: false }) {
-    this.params = params;
-    this.options = options;
-    this.soapRequest = new SoapRequest(params, options);
+  constructor(url: string, params: SoapParams = {}) {
+    this.wsdl = new WsdlNext(url);
+    this.soapRequest = new SoapRequest(url, params, this.wsdl);
   }
 
-  async getAllFunctions() {
-    return await this.wsdl.getAllFunctions(this.params, this.options);
+  async getAllMethods() {
+    const result = await this.wsdl.getAllMethods();
+    return result;
   }
 
   async getMethodParamsByName(method: string) {
-    return await this.wsdl.getMethodParamsByName(method, this.params, this.options);
+    const result = await this.wsdl.getMethodParamsByName(method);
+    return result;
   }
 
-  getXmlDataAsJson(xml: string) {
-    return this.wsdl.getXmlDataAsJson(xml);
-  }
-
-  async call(method: string, params: SoapBodyParams = {}, attributes: SoapBodyAttributes = {}) {
+  async call(
+    method: string,
+    params: SoapBodyParams = {},
+    attributes: SoapBodyAttributes = {},
+  ): Promise<any> {
     const result = await this.soapRequest.call(method, params, attributes);
-    const date = this.getXmlDataAsJson(result);
+    const data = WsdlNext.getXmlDataAsJson(result);
 
-    return date;
+    return data;
   }
 }
 
 export {
-  SoapNext, SoapParams, SoapOptions, SoapBodyAttributes, SoapBodyParams, SoapHeaders, HttpHeaders,
+  SoapNext, SoapParams, SoapBodyAttributes, SoapBodyParams, SoapHeaders, HttpHeaders,
 };

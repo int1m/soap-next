@@ -1,16 +1,18 @@
 import axios, { AxiosRequestHeaders } from 'axios';
+import { WsdlNext } from 'wsdl-next';
 import {
-  SoapBodyAttributes, SoapBodyParams, SoapOptions, SoapParams,
+  SoapBodyAttributes, SoapBodyParams, SoapParams,
 } from './SoapTypes';
 
 export default class SoapRequest {
+  private readonly url: string;
+
   private readonly clientParams: SoapParams;
 
-  private readonly options: SoapOptions;
+  private wsdl: WsdlNext;
 
-  private wsdl = require('wsdlrdr');
-
-  constructor(params: SoapParams, options: SoapOptions = { secure: false }) {
+  constructor(url: string, params: SoapParams, wsdl: WsdlNext) {
+    this.url = url;
     this.clientParams = params;
     if (typeof this.clientParams.httpHeaders !== 'undefined') {
       this.clientParams.httpHeaders['Content-Type'] = 'text/xml; charset=utf-8';
@@ -19,7 +21,7 @@ export default class SoapRequest {
         'Content-Type': 'text/xml; charset=utf-8',
       };
     }
-    this.options = options;
+    this.wsdl = wsdl;
   }
 
   async getRequestHeadParams() {
@@ -40,12 +42,7 @@ export default class SoapRequest {
   }
 
   async getRequestEnvelopeParams() {
-    const namespaces: Array<{ short: string, full: string }> = await this.wsdl.getNamespaces({
-      host: this.clientParams.host,
-      wsdl: this.clientParams.wsdl,
-    }, {
-      secure: false,
-    });
+    const namespaces: Array<{ short: string, full: string }> = await this.wsdl.getNamespaces();
 
     const namespaceFiltering = namespaces.filter((namespace) => namespace?.short !== 'xmlns');
     const xsd = namespaces.find((namespace) => namespace.short === 'xsd');
@@ -124,8 +121,7 @@ export default class SoapRequest {
     bodyParams: SoapBodyParams,
     attributes: SoapBodyAttributes,
   ) {
-    const methodParams = await this.wsdl
-      .getMethodParamsByName(method, this.clientParams, this.options);
+    const methodParams = await this.wsdl.getMethodParamsByName(method);
 
     const requestParams = methodParams.request;
 
@@ -168,8 +164,7 @@ export default class SoapRequest {
   }
 
   async request(body: string) {
-    const protocol = this.options.secure ? 'https://' : 'http://';
-    const url = `${protocol}${this.clientParams.host}${this.clientParams.path}`;
+    const url = this.url.split('?')[0];
     const result = await axios({
       url,
       method: 'POST',

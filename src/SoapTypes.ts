@@ -16,13 +16,6 @@ export interface SoapBodyParams {
 }
 
 export interface SoapParams {
-  host: string,
-  path: string,
-  wsdl: string,
   soapHeaders?: Array<SoapHeaders>,
   httpHeaders?: HttpHeaders,
-}
-
-export interface SoapOptions {
-  secure: boolean,
 }

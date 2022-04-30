@@ -25,35 +25,18 @@ yarn add soap-next
 
 ### Create SOAP client
 
-SoapNext(SoapParams, SoapOptions)
+SoapNext(url: string, params: SoapParams)
 
 ```ts
-const soapClient = new SoapNext({
-    host: 'webservices.oorsprong.org',
-    path: '/websamples.countryinfo/CountryInfoService.wso',
-    wsdl: '/websamples.countryinfo/CountryInfoService.wso?WSDL',
-}, {
-  secure: false,
-});
+soapClient = new SoapNext('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
 ```
 
 **SoapParams**
 
 ```ts
 interface SoapParams {
-  host: string,
-  path: string,
-  wsdl: string,
   soapHeaders?: Array<SoapHeaders>,
   httpHeaders?: HttpHeaders,
-}
-```
-
-**SoapOptions**
-
-```ts
-interface SoapOptions {
-  secure: boolean,
 }
 ```
 
@@ -71,7 +54,7 @@ const result = await soapClient.call('CountryName', {
 
 
 ```ts
-const result = await soapClient.getAllFunctions();
+const result = await soapClient.getAllMethods();
 ```
 
 ## Credits

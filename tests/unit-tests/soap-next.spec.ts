@@ -4,15 +4,11 @@ describe('soap-next', () => {
   let soapClient: SoapNext;
 
   beforeEach(() => {
-    soapClient = new SoapNext({
-      host: 'webservices.oorsprong.org',
-      path: '/websamples.countryinfo/CountryInfoService.wso',
-      wsdl: '/websamples.countryinfo/CountryInfoService.wso?WSDL',
-    });
+    soapClient = new SoapNext('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL');
   });
 
-  test('getAllFunctions', async () => {
-    const result = await soapClient.getAllFunctions();
+  test('getAllMethods', async () => {
+    const result = await soapClient.getAllMethods();
     expect(result).toContain('CountryName');
   });
 
